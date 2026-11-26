@@ -119,6 +119,8 @@ social_contact:
 # Docs: https://keep-docs.xpoet.cn/tutorial/configuration-guide/home_article.html
 # ---------------------------------------------------------------------------------------
 home_article:
+  # Show the article list on the home page
+  enable: false  # Option values: true | false
   # Show category in home page article block
   category:
     enable: false  # Option values: true | false

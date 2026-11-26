@@ -16,7 +16,9 @@
             <div class="main-content">
 
                 <% if (is_home()) { %>
-                    <%- partial('home-content') %>
+                    <% if (theme.home_article?.enable !== false || page.prev) { %>
+                        <%- partial('home-content') %>
+                    <% } %>
 
                 <% } else if (is_archive()) { %>
                     <%- partial('archive-content') %>
