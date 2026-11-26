@@ -1,0 +1,38 @@
+<%
+const { enable: pjax_enable } = theme?.pjax
+const {
+    repo,
+    issue_term,
+    label,
+    theme: utter_theme
+} = theme.comment?.utterances || {}
+%>
+<% if (repo) { %>
+    <div class="utterances-comment-container">
+        <div id="utterances-container"></div>
+        <script <%= pjax_enable === true ? 'data-pjax' : '' %>>
+          function loadUtterances() {
+            const container = document.getElementById('utterances-container');
+            if (!container || container.querySelector('iframe')) return;
+            const s = document.createElement('script');
+            s.src = 'https://utteranc.es/client.js';
+            s.setAttribute('repo', '<%= repo %>');
+            s.setAttribute('issue-term', '<%= issue_term || "pathname" %>');
+            s.setAttribute('label', '<%= label || "comment" %>');
+            s.setAttribute('theme', '<%= utter_theme || "github-light" %>');
+            s.setAttribute('crossorigin', 'anonymous');
+            s.async = true;
+            container.appendChild(s);
+          }
+
+          if ('<%= pjax_enable %>' === 'true') {
+            const loadUtterancesTimeout = setTimeout(() => {
+              loadUtterances();
+              clearTimeout(loadUtterancesTimeout);
+            }, 1000);
+          } else {
+            window.addEventListener('DOMContentLoaded', loadUtterances);
+          }
+        </script>
+    </div>
+<% } %>
