@@ -16,6 +16,13 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
+      - name: Restore file modification times from git
+        run: |
+          git ls-files -z | while IFS= read -r -d '' file; do
+            ts=$(git log -1 --format=%ct -- "$file")
+            [ -n "$ts" ] && touch -d "@$ts" "$file"
+          done
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
