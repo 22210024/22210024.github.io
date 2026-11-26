@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -26,6 +28,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Fill missing post dates
+        run: node scripts/fill-missing-dates.js
 
       - name: Build site
         run: npx hexo generate
